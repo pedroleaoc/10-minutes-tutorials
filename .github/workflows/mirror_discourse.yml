@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: topic_content=$(curl https://discourse.charmhub.io/raw/5834)
-      - run: echo "${{fromJson($topic_content)post_stream.posts.0.updated_at}}"
+      - run: echo "${{fromJson($topic_content).post_stream.posts.0.updated_at}}"
