@@ -18,8 +18,8 @@ jobs:
             topic_info=$(curl https://discourse.charmhub.io/t/5834.json | jq '.post_stream.posts[0].updated_at')
             echo "::set-output name=topic_info::$topic_info" 
             
-      - run: echo "${{ steps.get_topic_info.outputs.topic_info }}"
-      
+      - run: echo "${{ steps.get_topic_content.outputs.topic_content }}"
+
       #- name: Checkout repo
       #  uses: actions/checkout@v3.0.0
         
