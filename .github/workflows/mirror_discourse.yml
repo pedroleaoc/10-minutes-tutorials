@@ -1,7 +1,9 @@
 name: Mirror topic from Discourse
+on: workflow_dispatch
 on: 
   schedule:
     - cron: '5 * * * *'
+
 jobs:
   check-topic-changes:
     runs-on: ubuntu-latest
