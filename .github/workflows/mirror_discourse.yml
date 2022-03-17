@@ -9,4 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: topic_content=$(curl https://discourse.charmhub.io/raw/5834)
-      - run: echo "${{fromJson($topic_content).post_stream.posts.0.updated_at}}"
+      - id: get_topic_info
+        run: |
+            topic_info=$(curl https://discourse.charmhub.io/t/5834.json)
+            echo "::set-output name=topic_info::$topic_info"      
+            - run: echo "${{fromJson(steps.get_topic_info.outputs.topic_info).post_stream.posts.0.updated_at}}"
