@@ -14,4 +14,4 @@ jobs:
             topic_info=$(curl https://discourse.charmhub.io/t/5834.json | jq '.post_stream.posts')
             echo "::set-output name=topic_info::$topic_info" 
             
-      - run: echo ${{ steps.get_topic_info.outputs.topic_info }}
+      - run: echo ${{ steps.get_topic_info.outputs.topic_info[0].updated_at }}
