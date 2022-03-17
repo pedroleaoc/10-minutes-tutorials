@@ -15,3 +15,19 @@ jobs:
             echo "::set-output name=topic_info::$topic_info" 
             
       - run: echo ${{ steps.get_topic_info.outputs.topic_info }}
+      
+      - name: Checkout repo
+        uses: actions/checkout@v3.0.0
+      
+      - run: |
+            pwd
+            ls
+      
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          message: Show GitHub logo
+          committer_name: GitHub Actions
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+          
+
