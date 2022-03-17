@@ -16,6 +16,18 @@ jobs:
         run: |
             topic_info=$(curl https://discourse.charmhub.io/t/5834.json | jq '.post_stream.posts[0].updated_at')
             echo "::set-output name=topic_info::$topic_info" 
+      
+      - id: is_post_updated
+        run: |
+            gh_timetamp=$(grep -oP '__last_edited:\K.*?(?=---)' /home/runner/work/10-minutes-tutorials/10-minutes-tutorials/docs/microk8s_juju2.md)
+            discourse_timestamp=${{ steps.get_topic_info.outputs.topic_info }} 
+            if [[ "$gh_timetamp" == "$discourse_timestamp" ]] ;
+              then
+                echo "No changes."
+                exit 1
+            fi
+            echo "There was an update."
+            
             
       - id: get_topic_content
         run: |
@@ -23,8 +35,8 @@ jobs:
             echo "<!---__last_edited:${{ steps.get_topic_info.outputs.topic_info }}--->" > "/home/runner/work/10-minutes-tutorials/10-minutes-tutorials/docs/microk8s_juju2.md"
             echo -e "$topic_content" >> "/home/runner/work/10-minutes-tutorials/10-minutes-tutorials/docs/microk8s_juju2.md"
       
-      #- name: Add & Commit
-      #  uses: EndBug/add-and-commit@v9.0.0
-      #  with:
-      #    committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
           
