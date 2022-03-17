@@ -8,4 +8,5 @@ jobs:
   check-topic-changes:
     runs-on: ubuntu-latest
     steps:
-      - run: curl https://discourse.charmhub.io/raw/5834
+      - run: topic_content=$(curl https://discourse.charmhub.io/raw/5834)
+      - run: echo "${{fromJson($topic_content)post_stream.posts.0.updated_at}}"
