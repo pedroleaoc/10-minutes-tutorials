@@ -8,7 +8,11 @@ jobs:
   check-topic-changes:
     runs-on: ubuntu-latest
     steps:
-      - run: topic_content=$(curl https://discourse.charmhub.io/raw/5834)
+      - id: get_topic_content
+        run: |
+            topic_content=$(curl https://discourse.charmhub.io/raw/5834)
+            echo "::set-output name=topic_content::$topic_content"
+            
       - id: get_topic_info
         run: |
             topic_info=$(curl https://discourse.charmhub.io/t/5834.json | jq '.post_stream.posts[0].updated_at')
@@ -20,8 +24,8 @@ jobs:
         uses: actions/checkout@v3.0.0
       
       - run: |
-            pwd
-            ls
+            echo ${{ steps.get_topic_info.outputs.topic_info }} > "/home/runner/work/10-minutes-tutorials/10-minutes-tutorials/docs/microk8s_juju2.md"
+            echo "${{ steps.get_topic_content.outputs.topic_content }}" >> "/home/runner/work/10-minutes-tutorials/10-minutes-tutorials/docs/microk8s_juju2.md"
       
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.0.0
